@@ -11,19 +11,6 @@ const app = express();
 // Apply middlewares
 app.use(express.json());
 
-// Define routes
-app.get('/', (req,res) => {
-    res.json('Dabubabu');
-});
-
-app.post('/login', (req,res) => {
-    res.json('Login successful');
-})
-
-app.delete('/products/:id', (req,res) => {
-    res.json('product deleted')
-})
-
 // Use routes
 app.use(recipeRouter)
 
