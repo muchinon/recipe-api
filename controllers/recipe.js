@@ -20,7 +20,7 @@ export const postRecipes = async (req, res, next) => {
         // Add recipe to database
         const newRecipe = await RecipeModel.create(req.body);
         // Return response
-        res.json('Recipe Added');
+        res.json(newRecipe);
         // you can return newRecipe too
     } catch (error) {
         next(error);
