@@ -1,12 +1,12 @@
 import { RecipeModel } from "../models/recipe.js";
 
 // Get ALl Recipes
-export const getRecipes = async (req,res, next) => {
+export const getRecipes = async (req, res, next) => {
 
     try {
         // Get all recipes from database
         const allRecipes = await RecipeModel.find()
-    
+
         // Return all recipes as the response
         res.json(allRecipes)
     } catch (error) {
@@ -27,22 +27,25 @@ export const postRecipes = async (req, res, next) => {
     }
 };
 
-export const patchRecipes = (req, res) => {
-    res.json(`Recipe with id ${req.params.id} Updated`)
-};
+// export const patchRecipes = async (req, res) => {
+//     const favouriteToggle = req.body.favourite
+//     const editRecipe = await RecipeModel.findByIdAndUpdate(req.params.id, { favourite: true });
+//     res.status(200).send(editRecipe);
+// };
 
 // Delete Recipe
-export const delRecipe = async (req, res,next) => {
-   try {
-    // Delete by id
-    const delRecipe = await RecipeModel.findByIdAndDelete(req.params.id);
-    // Return response
-     res.json(`Recipe with id ${req.params.id} Deleted`);
-   } catch (error) {
-    next(error)
-   }
+export const delRecipe = async (req, res, next) => {
+    try {
+        // Delete by id
+        const delRecipe = await RecipeModel.findByIdAndDelete(req.params.id);
+        // Return response
+        res.json(`Recipe with id ${req.params.id} Deleted`);
+    } catch (error) {
+        next(error)
+    }
 }
 
 export const getRecipe = (req, res) => {
     res.json(`Get recipe with id ${req.params.id}`)
 }
+
