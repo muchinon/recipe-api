@@ -27,11 +27,18 @@ export const postRecipes = async (req, res, next) => {
     }
 };
 
-// export const patchRecipes = async (req, res) => {
-//     const favouriteToggle = req.body.favourite
-//     const editRecipe = await RecipeModel.findByIdAndUpdate(req.params.id, { favourite: true });
-//     res.status(200).send(editRecipe);
-// };
+
+
+export const patchRecipes = async (req, res, next) => {
+    try {
+        const updateRecipe = await RecipeModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(updateRecipe);
+    } catch (error) {
+        next(error);
+    }
+};
+
+
 
 // Delete Recipe
 export const delRecipe = async (req, res, next) => {
@@ -43,9 +50,4 @@ export const delRecipe = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-}
-
-export const getRecipe = (req, res) => {
-    res.json(`Get recipe with id ${req.params.id}`)
-}
-
+};
