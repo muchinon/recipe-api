@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors';
 import recipeRouter from "./routes/recipe.js";
 import mongoose from "mongoose";
 import expressOasGenerator from "express-oas-generator"
@@ -16,6 +17,7 @@ expressOasGenerator.handleResponses(app, {
 });
 
 // Apply middlewares
+app.use(cors());
 app.use(express.json());
 app.use(express.static('uploads'))
 

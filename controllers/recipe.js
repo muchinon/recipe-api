@@ -5,10 +5,17 @@ export const getRecipes = async (req, res, next) => {
 
     try {
         // Get query params
-        const { limit, skip, search } = req.query;
+        const {
+            limit = 10,
+            skip = 0,
+            filter = "{}",
+        } = req.query;
 
         // Get all recipes from database
-        const allRecipes = await RecipeModel.find({ name: search }).limit(limit).skip(skip);
+        const allRecipes = await RecipeModel
+            .find(JSON.parse(filter))
+            .limit(limit)
+            .skip(skip);
 
         // Return all recipes as the response
         res.json(allRecipes)
