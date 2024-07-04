@@ -17,3 +17,5 @@ recipeSchema.plugin(toJSON)
 
 // RecipeModel is a class
 export const RecipeModel = model('Recipe', recipeSchema);
+
+// Recipe
