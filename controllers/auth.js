@@ -10,6 +10,9 @@ export const register = async (req, res, next) => {
       ...req.body,
       password: hashPassword,
     });
+
+    // Generate a session
+    req.session.user = { id: registeredUser.id };
     // Return Response
     res.status(201).json("User has registered succesfully");
   } catch (error) {
@@ -17,8 +20,53 @@ export const register = async (req, res, next) => {
   }
 };
 
-const login = async (req, res, next) => {};
+export const login = async (req, res, next) => {
+  // FInd user using unique identfier
+  const loginUser = await UserModel.findOne({
+    email: req.body.email,
+  });
+  //   if (!loginUser) {
+  //     return res.status(401).json("No user found");
+  //   }
+  if (!loginUser) {
+    res.status(401).json("No user found");
+  } else {
+    // Verify their password
+    const correctPassword = bcrypt.compareSync(
+      req.body.password,
+      loginUser.password
+    );
+    if (!correctPassword) {
+      res.status(401).json("Invalid Credentials");
+    } else {
+      // Generate a session
+      req.session.user = { id: loginUser.id };
+      // Return response
+      res.status(200).json("Login succcessful");
+    }
+  }
+};
 
-const logout = async () => {};
+export const logout = async (req, res, next) => {
+  try {
+    // Destroy your session
+    await req.session.destroy();
+    // Return response
+    res.status(200).json("Logout successful");
+  } catch (error) {
+    next(error);
+  }
+};
 
-const profile = async () => {};
+export const profile = async (req, res, next) => {
+  try {
+    // Find a user by id
+    const user = await UserModel.findById(req.session.user.id).select({
+      password: false,
+    });
+    // Return response
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
